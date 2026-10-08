@@ -142,7 +142,7 @@
   function chrome(){
     const f = document.body.dataset.foot; if (f === undefined || f === 'none') return;
     const d = document.createElement('div'); d.className = 'ew-foot';
-    d.innerHTML = `<span class="lg">${EW.MARK}elastic</span><span>${f}</span>`;
+    d.innerHTML = `<span class="lg"><img src="style/logo-elastic-horizontal-color.svg" alt="Elastic"></span><span>${f}</span>`;
     document.body.appendChild(d);
   }
   function fit(){
