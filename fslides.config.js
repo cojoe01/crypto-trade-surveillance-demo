@@ -1,4 +1,5 @@
 module.exports = {
+  style: 'elastic-web',
   name: 'crypto-trade-surveillance-demo',
   title: 'crypto-trade-surveillance-demo',
   repo: 'cojoe01/crypto-trade-surveillance-demo',            // powers slide comments (GitHub issues)
@@ -7,13 +8,15 @@ module.exports = {
 
   slides: [
     'cover.html',
-    'stat.html',
+    'platform.html',
+    'stats.html',
     'closing.html',
   ],
 
   labels: [
     'Cover',
-    'The Number',
-    'Thank You',
+    'Search AI Platform',
+    'Proof point',
+    'Thank you',
   ],
 };
