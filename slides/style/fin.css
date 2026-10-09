@@ -1,0 +1,49 @@
+/* Deck-specific components for the trade surveillance story. Sits on top of eweb.css. */
+:root{--red:#E0352B;--red-d:#A8231B;--navy:#0B1533;--navy-2:#14214A}
+
+/* light product window: ink border, hollow dots, mono title, offset shadow */
+.win{background:#fff;border:1px solid var(--ink);position:relative;box-shadow:8px 8px 0 var(--blue)}
+.win.t{box-shadow:8px 8px 0 var(--teal)}
+.win.p{box-shadow:8px 8px 0 var(--pink)}
+.win.o{box-shadow:8px 8px 0 var(--orange)}
+.win.n{box-shadow:none}
+.win .wb{display:flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-bottom:1px solid var(--ink);font:500 10.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--grey)}
+.win .wb i{width:9px;height:9px;border:1px solid var(--ink);border-radius:50%;display:block}
+.win .wb span{margin-left:10px}
+.win .wb em{margin-left:auto;font-style:normal;color:var(--blue)}
+
+/* ES|QL / JSON listings */
+pre.code{font:400 11.5px/1.62 var(--mono);color:var(--char);padding:14px 18px;white-space:pre;overflow:hidden;background:#fff}
+.code .k{color:var(--blue);font-weight:600}
+.code .f{color:var(--ink)}
+.code .n{color:#B02A6B}
+.code .s{color:#02857F}
+.code .c{color:var(--grey-l)}
+.code .h{background:#FFF4C2;display:inline-block;width:100%}
+
+/* ticker tape */
+.tape{position:absolute;left:0;right:0;bottom:62px;height:30px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;z-index:3;background:rgba(255,255,255,.92)}
+.tape-in{display:flex;gap:38px;white-space:nowrap;width:max-content;padding-left:72px;height:100%;align-items:center;font:500 11px var(--mono);letter-spacing:.07em;animation:tape 46s linear infinite}
+.tape-in span{display:flex;gap:8px;align-items:center;color:var(--char)}
+.tape-in b{font-weight:600;color:var(--ink)}
+.tape-in .up{color:var(--teal-d);font-style:normal}
+.tape-in .dn{color:var(--orange);font-style:normal}
+@keyframes tape{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* sev / mitre chips */
+.sev{display:inline-flex;align-items:center;gap:6px;font:600 10px var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;color:#fff;background:var(--char)}
+.sev.crit{background:var(--red)}
+.sev.high{background:var(--orange);color:var(--ink)}
+.sev.med{background:var(--yellow);color:var(--ink)}
+.sev.low{background:var(--slate-l);color:var(--char)}
+.mitre{font:500 10.5px var(--mono);letter-spacing:.05em;color:var(--grey);text-transform:uppercase}
+.mitre b{color:var(--ink);font-weight:600}
+
+/* generic row-reveal helpers */
+@keyframes fin-up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes fin-draw{from{stroke-dashoffset:var(--len)}to{stroke-dashoffset:0}}
+@keyframes fin-pop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
+@keyframes fin-grow{from{transform:scaleY(0)}to{transform:none}}
+@keyframes fin-growx{from{transform:scaleX(0)}to{transform:none}}
+@keyframes fin-pulse{0%,100%{opacity:.25}50%{opacity:.7}}
+.up1{animation:fin-up .55s cubic-bezier(.2,.7,.2,1) both}

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Wash Trading</title>
+<link rel="stylesheet" href="style/eweb.css">
+<link rel="stylesheet" href="style/fin.css">
+<style>
+  h1{font-size:52px;letter-spacing:-1.9px;max-width:560px}
+  .sub{font-size:16.5px;max-width:500px}
+  .z{width:560px}
+  .big{position:absolute;left:72px;top:330px;display:flex;align-items:flex-end;gap:14px}
+  .big .stat{font-size:110px;letter-spacing:-5px}
+  .big .post{font-size:15px;line-height:1.4;color:var(--char);padding-bottom:16px;max-width:260px}
+  .big .post b{color:var(--ink)}
+  .bar{position:absolute;left:72px;top:482px;width:480px}
+  .bar .tag{font-size:10px;color:var(--grey);font-weight:500;margin-bottom:8px}
+  .bar .t{height:12px;background:var(--bg);position:relative;margin-bottom:8px}
+  .bar .t i{position:absolute;left:0;top:0;bottom:0;background:var(--slate);transform-origin:left;animation:fin-growx 1s cubic-bezier(.2,.7,.2,1) .6s both}
+  .bar .t.hot i{background:var(--blue);animation-delay:.8s}
+  .bar .lbl{display:flex;justify-content:space-between;font:400 11.5px var(--mono);color:var(--char);margin-bottom:3px}
+  .bar .lbl b{color:var(--ink)}
+  .rt{position:absolute;left:640px;right:72px;top:70px}
+  .rt .win{margin-bottom:26px}
+  .rt .wb em{color:var(--blue)}
+  .dv{padding:12px 16px 6px}
+  .dv .row{display:grid;grid-template-columns:70px 1fr;align-items:center;gap:10px;height:30px;font:500 10.5px var(--mono);letter-spacing:.04em;color:var(--char)}
+  .dv .row svg{width:100%;height:22px;overflow:visible}
+  .dv .row.w{color:var(--ink);font-weight:600}
+  .ax{display:flex;justify-content:space-between;padding:4px 16px 10px 96px;font:500 9.5px var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--grey)}
+  pre.code{padding:12px 16px;font-size:11px}
+</style>
+</head>
+<body data-foot="Trade surveillance · Wash trading">
+<div class="z">
+  <div class="eyebrow in1">Market abuse · <b>Wash trading</b></div>
+  <h1 class="in2">Trading with yourself <span class="b">nets to zero.</span></h1>
+  <p class="sub in3">Real volume, no real position. The tell is an account that fills both sides of a symbol and ends the day flat.</p>
+</div>
+<div class="big in4"><div class="stat" id="n88">88</div><div class="post"><b>of 2,712</b> account and symbol pairs clear both thresholds. Roughly the top 3 percent.</div></div>
+<div class="bar in5">
+  <div class="tag">Funnel, same data</div>
+  <div class="lbl"><span>Qualifying account and symbol pairs</span><b>2,712</b></div><div class="t"><i style="width:100%"></i></div>
+  <div class="lbl"><span>Above the p95 volume floor, net under 0.3%</span><b>88</b></div><div class="t hot"><i style="width:3.24%;min-width:5px"></i></div>
+</div>
+<div class="rt in3">
+  <div class="win t">
+    <div class="wb"><i></i><i></i><i></i><span>Net position by account</span><em>illustrative</em></div>
+    <div class="dv" id="dv"></div>
+    <div class="ax"><span>Sells</span><span>Flat</span><span>Buys</span></div>
+  </div>
+  <div class="win n">
+    <div class="wb"><i></i><i></i><i></i><span>Wash Trading: Both-Sides Fill</span><em>ES|QL</em></div>
+<pre class="code"><span class="k">STATS</span> buy_qty  = <span class="k">SUM</span>(order.filled_qty) <span class="k">WHERE</span> order.side == <span class="s">"Buy"</span>,
+      sell_qty = <span class="k">SUM</span>(order.filled_qty) <span class="k">WHERE</span> order.side == <span class="s">"Sell"</span>,
+      total_filled_qty = <span class="k">SUM</span>(order.filled_qty)
+  <span class="k">BY</span> order.account, order.symbol
+| <span class="k">WHERE</span> buy_qty &gt; <span class="n">0</span> <span class="k">AND</span> sell_qty &gt; <span class="n">0</span>
+| <span class="k">EVAL</span> net_pct = <span class="k">ABS</span>(buy_qty - sell_qty)
+                 / (buy_qty + sell_qty) * <span class="n">100</span>
+<span class="h">| <span class="k">WHERE</span> total_filled_qty &gt; <span class="n">27931289</span> <span class="k">AND</span> net_pct &lt; <span class="n">0.3</span></span></pre>
+  </div>
+</div>
+<script src="style/eweb.js"></script>
+<script src="/js/fuckslides.js"></script>
+<script>
+(function(){
+  EW.count(document.getElementById('n88'), 88, {delay: .4, dur: 1.1});
+  // divergent bars: sells left of center, buys right. Wash accounts are flat.
+  const rows = [['Acct A', -62, 0], ['Acct B', 48, 0], ['Acct C', -8, 1], ['Acct D', 70, 0], ['Acct E', 4, 1], ['Acct F', -40, 0]];
+  const dv = document.getElementById('dv');
+  rows.forEach(([n, v, w], i) => {
+    const d = document.createElement('div'); d.className = 'row' + (w ? ' w' : '');
+    const W = 400, mid = W / 2, x = v >= 0 ? mid : mid + v * 2.9, wd = Math.max(Math.abs(v) * 2.9, 3);
+    d.innerHTML = `<span>${n}${w ? ' ⚑' : ''}</span><svg viewBox="0 0 ${W} 22"><line x1="${mid}" y1="0" x2="${mid}" y2="22" stroke="#1D1E24" stroke-dasharray="2 3"/><rect x="${x}" y="5" width="${wd}" height="12" fill="${w ? '#E0352B' : v >= 0 ? '#02BCB7' : '#FF7E62'}" style="transform-box:fill-box;transform-origin:${v >= 0 ? 'left' : 'right'};animation:fin-growx .7s cubic-bezier(.2,.7,.2,1) ${.5 + i * .08}s both"/></svg>`;
+    dv.appendChild(d);
+  });
+})();
+</script>
+</body>
+</html>

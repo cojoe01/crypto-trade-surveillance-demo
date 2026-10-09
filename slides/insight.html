@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Insight</title>
+<link rel="stylesheet" href="style/eweb.css">
+<link rel="stylesheet" href="style/fin.css">
+<style>
+  body{background:var(--navy);color:#fff}
+  .eyebrow{color:#9AA7CC}
+  .eyebrow b{color:#fff}
+  .eyebrow::before{background:var(--teal)}
+  h1{color:#fff;font-size:74px;line-height:.98;letter-spacing:-3px;margin-top:62px}
+  h1 .b{color:var(--teal)}
+  .sub{color:#B8C3E3;font-size:19px;max-width:520px;margin-top:30px}
+  .sub b{color:#fff;font-weight:500}
+  .story{margin-top:26px;max-width:520px;padding-left:16px;border-left:2px solid var(--teal);font-size:16px;line-height:1.5;color:#fff}
+  #net{position:absolute;left:600px;top:0;width:680px;height:720px;z-index:1}
+  .src{position:absolute;left:640px;width:190px;height:34px;display:flex;align-items:center;gap:10px;padding:0 12px;border:1px solid #3A4C86;background:rgba(20,33,74,.85);font:500 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#C9D3F0;z-index:2;animation:fin-up .5s cubic-bezier(.2,.7,.2,1) both}
+  .src i{width:8px;height:8px;background:#6E80B8;display:block}
+  .src.hot{border-color:var(--teal);color:#fff}
+  .src.hot i{background:var(--teal)}
+  .hub{position:absolute;left:1000px;top:300px;width:150px;height:120px;border:1.5px solid var(--teal);background:rgba(72,239,207,.08);z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;animation:fin-up .6s cubic-bezier(.2,.7,.2,1) 1s both}
+  .hub .mk{width:40px;height:40px}
+  .hub span{font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#fff}
+  .out{position:absolute;left:960px;top:436px;width:230px;font:500 10.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#9AA7CC;text-align:center;z-index:2;animation:fin-up .5s ease 1.4s both}
+</style>
+</head>
+<body data-foot="none">
+<div class="z">
+  <div class="eyebrow in1">The insight</div>
+  <h1 class="in2">One platform.<br>Any data.<br><span class="b">Your story.</span></h1>
+  <p class="sub in3">If there is one takeaway: <b>Elastic lets you tell a story with your data.</b> It does not matter what that data is.</p>
+  <p class="story in4">Today's story: Elastic Security, solving financial fraud on a crypto trading platform.</p>
+</div>
+<svg id="net" viewBox="0 0 680 720"></svg>
+<div class="src" style="top:142px;animation-delay:.4s"><i></i>Endpoint events</div>
+<div class="src" style="top:202px;animation-delay:.48s"><i></i>Auth logs</div>
+<div class="src" style="top:262px;animation-delay:.56s"><i></i>Cloud audit</div>
+<div class="src" style="top:322px;animation-delay:.64s"><i></i>Network flows</div>
+<div class="src hot" style="top:382px;animation-delay:.72s"><i></i>Order events</div>
+<div class="src hot" style="top:442px;animation-delay:.8s"><i></i>Trade fills</div>
+<div class="src hot" style="top:502px;animation-delay:.88s"><i></i>Account activity</div>
+<div class="hub"><div class="mk" id="mk"></div><span>One data model</span></div>
+<div class="out">Detect · Investigate · Respond</div>
+<script src="style/eweb.js"></script>
+<script src="style/fin.js"></script>
+<script src="/js/fuckslides.js"></script>
+<script>
+(function(){
+  document.getElementById('mk').innerHTML = EW.MARK;
+  FIN.darkFoot('Trade surveillance · The insight');
+  EW.dots({x: 600, y: 20, w: 680, h: 680, seed: 9, blobs: 6, thr: .5, color: [34, 50, 100], hi: [72, 239, 207]});
+  // lines from each source to the hub
+  const svg = document.getElementById('net'), tops = [142, 202, 262, 322, 382, 442, 502];
+  tops.forEach((t, i) => {
+    const hot = i >= 4, y = t + 17, x0 = 230, x1 = 400, hy = 360 + (i - 3) * 10;
+    const p = EW.el('path', {d: `M${x0},${y} C${x0 + 80},${y} ${x1 - 90},${hy} ${x1},${hy}`, fill: 'none', stroke: hot ? '#48EFCF' : '#4A5C94', 'stroke-width': 1.2}, svg);
+    const L = p.getTotalLength(); p.style.setProperty('--len', L); p.style.strokeDasharray = L; p.style.animation = `fin-draw .7s ease ${.6 + i * .08}s both`;
+    if (hot){ const c = EW.el('circle', {r: 3, fill: '#48EFCF'}, svg); const t0 = performance.now(); const f = now => { const k = (((now - t0) / 1000) * .35 + i * .13) % 1; const pt = p.getPointAtLength(L * k); c.setAttribute('cx', pt.x); c.setAttribute('cy', pt.y); c.setAttribute('opacity', (now - t0) > 1500 ? 1 : 0); requestAnimationFrame(f); }; requestAnimationFrame(f); }
+  });
+})();
+</script>
+</body>
+</html>

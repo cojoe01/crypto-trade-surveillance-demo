@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Objectives</title>
+<link rel="stylesheet" href="style/eweb.css">
+<link rel="stylesheet" href="style/fin.css">
+<style>
+  h1{font-size:50px;letter-spacing:-1.8px}
+  .list{position:absolute;left:72px;right:72px;top:196px}
+  .o{display:grid;grid-template-columns:64px 1fr 360px;align-items:center;min-height:84px;border-top:1px solid var(--line);padding:6px 0}
+  .o:last-child{border-bottom:1px solid var(--line)}
+  .o .n{font:500 34px var(--sans);letter-spacing:-1.5px;color:var(--blue)}
+  .o .t{font:500 21px/1.3 var(--sans);letter-spacing:-.4px;color:var(--ink);max-width:640px}
+  .o .t b{color:var(--blue);font-weight:600}
+  .o .t small{display:block;font:400 13px var(--sans);letter-spacing:0;color:var(--grey);margin-top:3px}
+  .o .ch{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+  .o .ch .chip{font-size:10px}
+  .o:last-child .n{color:var(--teal-d)}
+</style>
+</head>
+<body data-foot="Trade surveillance · Objectives">
+<div class="z">
+  <div class="eyebrow in1">Objectives · <b>Success criteria</b></div>
+  <h1 class="in2">Five goals. <span class="b">One definition of done.</span></h1>
+</div>
+<div class="list">
+  <div class="o in3"><div class="n">01</div><div class="t"><b>Onboard</b> existing transaction and auth logs<small>At least initially. Start with the data already in hand.</small></div><div class="ch"><span class="chip">Ingest pipelines</span><span class="chip">Integrations</span></div></div>
+  <div class="o in3" style="animation-delay:.4s"><div class="n">02</div><div class="t">Develop a <b>normalized data model</b><small>One shape across transaction and authentication sources.</small></div><div class="ch"><span class="chip">Common schema</span><span class="chip">Field mapping</span></div></div>
+  <div class="o in4"><div class="n">03</div><div class="t">Apply <b>business context enrichment</b><small>User profiles, merchant details, threat intel.</small></div><div class="ch"><span class="chip">Enrich</span><span class="chip">Lookups</span><span class="chip">Threat intel</span></div></div>
+  <div class="o in5"><div class="n">04</div><div class="t">Turn <b>analyst intuition into detections</b><small>Then build proactive alerting and investigation into their workflows.</small></div><div class="ch"><span class="chip on">ES|QL rules</span><span class="chip">Alerts</span><span class="chip">Cases</span></div></div>
+  <div class="o in6"><div class="n">05</div><div class="t">Maintain existing Elastic dependencies<small>Do not break anything.</small></div><div class="ch"><span class="chip">Same cluster</span><span class="chip">Same Kibana</span></div></div>
+</div>
+<script src="style/eweb.js"></script>
+<script src="/js/fuckslides.js"></script>
+</body>
+</html>

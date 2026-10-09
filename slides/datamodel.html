@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Data Model</title>
+<link rel="stylesheet" href="style/eweb.css">
+<link rel="stylesheet" href="style/fin.css">
+<style>
+  h1{font-size:48px;letter-spacing:-1.7px}
+  .sub{font-size:17px;max-width:1040px;margin-top:10px}
+  .win{position:absolute;left:72px;top:206px;width:520px}
+  .doc{padding:12px 16px 14px;font:400 11.5px/1 var(--mono);color:var(--char)}
+  .ln{display:grid;grid-template-columns:8px 1fr;gap:10px;align-items:center;height:22px;animation:fin-up .4s ease both}
+  .ln i{width:8px;height:8px;display:block}
+  .ln .k{color:var(--ink)} .ln .v{color:#02857F} .ln .nv{color:#B02A6B}
+  .ln.g i{background:transparent}
+  .fam{position:absolute;left:640px;right:72px;top:206px;display:flex;flex-direction:column}
+  .f{display:grid;grid-template-columns:96px 1fr;gap:16px;padding:11px 0;border-top:1px solid var(--line);animation:fin-up .5s cubic-bezier(.2,.7,.2,1) both}
+  .f:last-child{border-bottom:1px solid var(--line)}
+  .f .q{display:flex;align-items:center;gap:8px;font:600 11px var(--mono);letter-spacing:.07em;text-transform:uppercase}
+  .f .q i{width:10px;height:10px;display:block}
+  .f .fl{font:500 12px var(--mono);color:var(--ink)}
+  .f .use{font-size:13.5px;color:var(--char);margin-top:4px}
+  .foot{position:absolute;left:72px;top:602px;font:500 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--grey)}
+</style>
+</head>
+<body data-foot="Trade surveillance · Data model">
+<div class="z">
+  <div class="eyebrow in1">Data model</div>
+  <h1 class="in2">One order schema. <span class="b">Every rule reads it.</span></h1>
+  <p class="sub in3">Orders, fills, amendments and cancels land in one index pattern. Five field families drive every detection.</p>
+</div>
+<div class="win in3">
+  <div class="wb"><i></i><i></i><i></i><span>logs-trades.orders-*</span><em>sample</em></div>
+  <div class="doc" id="doc"></div>
+</div>
+<div class="fam" id="fam"></div>
+<div class="foot in6">Sample document, illustrative values</div>
+<script src="style/eweb.js"></script>
+<script src="/js/fuckslides.js"></script>
+<script>
+(function(){
+  const C = {who: '#0B64DD', what: '#48EFCF', how: '#F04E98', much: '#FF7E62', where: '#FEC514'};
+  const rows = [
+    [null, '@timestamp', '"2026-09-30T18:51:24Z"'],
+    ['how', 'event.action', '"order-replaced"'],
+    [null, 'order.id', '"ORD-7731905"'],
+    ['who', 'order.account', '"ACCT-0147"'],
+    ['who', 'order.client_id', '"CLIENT-088"'],
+    ['who', 'user.name', '"t.nakamura"'],
+    ['what', 'order.symbol', '"BTC-USD"'],
+    ['what', 'order.side', '"Sell"'],
+    ['how', 'order.status', '"PartialFill"'],
+    ['much', 'order.price', 64210.50],
+    ['much', 'order.avg_fill_price', 64231.10],
+    ['much', 'order.filled_qty', 1.25],
+    ['much', 'order.notional', 80288.88],
+    ['where', 'order.venue', '"ARCA-X"'],
+    ['where', 'order.venue_type', '"dark_pool"'],
+  ];
+  const doc = document.getElementById('doc');
+  rows.forEach(([f, k, v], i) => {
+    const d = document.createElement('div'); d.className = 'ln' + (f ? '' : ' g'); d.style.animationDelay = (.5 + i * .04) + 's';
+    d.innerHTML = `<i style="${f ? 'background:' + C[f] : ''}"></i><span><span class="k">"${k}"</span>: <span class="${typeof v === 'number' ? 'nv' : 'v'}">${v}</span>${i < rows.length - 1 ? ',' : ''}</span>`;
+    doc.appendChild(d);
+  });
+  const fams = [
+    ['who', 'Who', 'order.account · order.client_id · user.*', 'Multi-account accumulation, new accounts, unattributed orders'],
+    ['what', 'What', 'order.symbol · order.side', 'Average daily volume per symbol, both-sides wash trading'],
+    ['how', 'How', 'event.action · order.status', 'Cancel-and-flip spoofing, layering by repeated amendment'],
+    ['much', 'How much', 'order.filled_qty · order.notional · prices', 'Volume thresholds, price edge, oversized orders'],
+    ['where', 'Where', 'order.venue · order.venue_type', 'Dark pool concentration spikes'],
+  ];
+  const fe = document.getElementById('fam');
+  fams.forEach(([k, n, fl, use], i) => {
+    const d = document.createElement('div'); d.className = 'f'; d.style.animationDelay = (.7 + i * .12) + 's';
+    d.innerHTML = `<div class="q"><i style="background:${C[k]}"></i>${n}</div><div><div class="fl">${fl}</div><div class="use">${use}</div></div>`;
+    fe.appendChild(d);
+  });
+})();
+</script>
+</body>
+</html>

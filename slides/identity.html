@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Identity and Evasion</title>
+<link rel="stylesheet" href="style/eweb.css">
+<link rel="stylesheet" href="style/fin.css">
+<style>
+  h1{font-size:52px;letter-spacing:-1.9px}
+  .sub{font-size:17px;max-width:820px;margin-top:10px}
+  .hd{position:absolute;left:72px;right:72px;top:196px;display:grid;grid-template-columns:1fr 70px 1fr;font:600 10.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--grey)}
+  .hd span:last-child{color:var(--blue)}
+  .rows{position:absolute;left:72px;right:72px;top:224px}
+  .r{display:grid;grid-template-columns:1fr 70px 1fr;align-items:center;height:98px;border-top:1px solid var(--line);animation:fin-up .5s cubic-bezier(.2,.7,.2,1) both}
+  .r:last-child{border-bottom:1px solid var(--line)}
+  .r h3{font:600 20px/1.2 var(--sans);letter-spacing:-.4px}
+  .r .th{font:400 12px var(--mono);color:var(--char);margin-top:6px;display:flex;gap:6px;flex-wrap:wrap}
+  .r .th span{border:1px solid var(--line);padding:2px 7px}
+  .r .ar{display:flex;justify-content:center}
+  .r .ar svg{width:44px;height:14px;overflow:visible}
+  .r .tw{border:1px solid var(--ink);padding:12px 16px;background:#fff;box-shadow:6px 6px 0 var(--blue)}
+  .r:nth-child(2) .tw{box-shadow:6px 6px 0 var(--teal)}
+  .r:nth-child(3) .tw{box-shadow:6px 6px 0 var(--pink)}
+  .r:nth-child(4) .tw{box-shadow:6px 6px 0 var(--orange)}
+  .r .tw > b{font:600 17px var(--sans);letter-spacing:-.3px;display:block}
+  .r .tw p{font-size:12.5px;color:var(--char);margin-top:3px}
+  .r .tw .mitre{margin-top:6px;display:block}
+</style>
+</head>
+<body data-foot="Trade surveillance · Fraud meets cyber">
+<div class="z">
+  <div class="eyebrow in1">Where the two worlds meet</div>
+  <h1 class="in2">Fraud signals are <span class="b">security signals.</span></h1>
+  <p class="sub in3">The same behaviors a SOC hunts in the enterprise show up in the order book, under different names.</p>
+</div>
+<div class="hd in3"><span>Surveillance rule</span><span></span><span>Its security twin</span></div>
+<div class="rows">
+  <div class="r" style="animation-delay:.4s"><div><h3>New account, institutional scale</h3><div class="th"><span>30 days or less</span><span>500+ orders</span><span>$4.2M+ single order</span></div></div><div class="ar"><svg viewBox="0 0 44 14"><path d="M0 7H38M31 1L38 7L31 13" fill="none" stroke="#1D1E24" stroke-width="1.5"/></svg></div><div class="tw"><b>Account takeover, nominee accounts</b><p>A fresh identity acting with full privilege and no ramp-up.</p><span class="mitre">ATT&amp;CK <b>TA0006</b> Credential Access</span></div></div>
+  <div class="r" style="animation-delay:.55s"><div><h3>Unattributed order volume</h3><div class="th"><span>50%+ orders, no client_id</span><span>10+ orders</span></div></div><div class="ar"><svg viewBox="0 0 44 14"><path d="M0 7H38M31 1L38 7L31 13" fill="none" stroke="#1D1E24" stroke-width="1.5"/></svg></div><div class="tw"><b>Identity masquerading</b><p>Activity that cannot be tied back to a real owner.</p><span class="mitre">ATT&amp;CK <b>T1036</b> Masquerading</span></div></div>
+  <div class="r" style="animation-delay:.7s"><div><h3>Dark pool concentration</h3><div class="th"><span>80%+ of fills on dark venues</span><span>10+ fills</span></div></div><div class="ar"><svg viewBox="0 0 44 14"><path d="M0 7H38M31 1L38 7L31 13" fill="none" stroke="#1D1E24" stroke-width="1.5"/></svg></div><div class="tw"><b>Defense evasion</b><p>Moving to the place where nobody is watching.</p><span class="mitre">ATT&amp;CK <b>TA0005</b> Stealth</span></div></div>
+  <div class="r" style="animation-delay:.85s"><div><h3>DAO and treasury order spikes</h3><div class="th"><span>Single order 20x+ the account average</span></div></div><div class="ar"><svg viewBox="0 0 44 14"><path d="M0 7H38M31 1L38 7L31 13" fill="none" stroke="#1D1E24" stroke-width="1.5"/></svg></div><div class="tw"><b>Privileged account abuse</b><p>Sudden scale on a trusted identity: a flash loan or governance attack.</p><span class="mitre">ATT&amp;CK <b>T1565</b> Data Manipulation</span></div></div>
+</div>
+<script src="style/eweb.js"></script>
+<script src="/js/fuckslides.js"></script>
+</body>
+</html>

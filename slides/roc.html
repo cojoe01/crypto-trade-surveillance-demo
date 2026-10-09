@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Setup</title>
+<link rel="stylesheet" href="style/eweb.css">
+<link rel="stylesheet" href="style/fin.css">
+<style>
+  h1{font-size:48px;letter-spacing:-1.7px;max-width:1000px}
+  .sub{font-size:17px;max-width:760px;margin-top:12px}
+  .row{position:absolute;left:72px;right:72px;top:226px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .cd{background:#fff;border:1px solid var(--ink);padding:20px 22px 22px;position:relative;height:236px;display:flex;flex-direction:column}
+  .cd:nth-child(1){box-shadow:8px 8px 0 var(--blue)}
+  .cd:nth-child(2){box-shadow:8px 8px 0 var(--teal)}
+  .cd:nth-child(3){box-shadow:8px 8px 0 var(--orange)}
+  .cd .n{font:600 11px var(--mono);letter-spacing:.07em;color:var(--grey)}
+  .cd h3{font:600 23px/1.15 var(--sans);letter-spacing:-.6px;margin:12px 0 10px}
+  .cd h3 span{color:var(--blue)}
+  .cd p{font-size:14px;line-height:1.5;color:var(--char)}
+  .cd .chips{margin-top:auto;display:flex;gap:6px;flex-wrap:wrap}
+  .shift{position:absolute;left:72px;right:72px;top:508px;height:116px;border-top:1px solid var(--ink);display:grid;grid-template-columns:1fr 70px 1fr;align-items:center}
+  .st{padding-top:6px}
+  .st .tag{font-size:10.5px;color:var(--grey);margin-bottom:8px}
+  .st .big{font:600 26px var(--sans);letter-spacing:-.8px}
+  .st.to .big{color:var(--blue)}
+  .st p{font-size:13.5px;color:var(--char);margin-top:6px}
+  .arrow{display:flex;justify-content:center}
+  .arrow svg{width:56px;height:20px;overflow:visible}
+  .mini{display:flex;gap:4px;align-items:flex-end;height:30px;margin-top:10px}
+  .mini i{width:12px;background:var(--slate);display:block;transform-origin:bottom;animation:fin-grow .5s ease both}
+  .mini.act i{background:var(--blue)}
+  .mini.act i.r{background:var(--red)}
+</style>
+</head>
+<body data-foot="Trade surveillance · The setup">
+<div class="z">
+  <div class="eyebrow in1">The setup</div>
+  <h1 class="in2">A new ROC, <span class="b">free of SIEM baggage.</span></h1>
+  <p class="sub in3">Fraud and cyber analysts now share one Risk Operations Center, with the freedom to choose the platform from scratch.</p>
+</div>
+<div class="row">
+  <div class="cd in3"><div class="n">01 · People</div><h3>Fraud and cyber, <span>combined.</span></h3><p>Financial fraud and cyber security analysts now work as one team, on one queue of notable events.</p><div class="chips"><span class="chip">Risk Operations Center</span></div></div>
+  <div class="cd in4"><div class="n">02 · Freedom</div><h3>Not bound to <span>an existing SIEM.</span></h3><p>A greenfield chance to design the stack around the work, not around what was already installed.</p><div class="chips"><span class="chip">Greenfield</span></div></div>
+  <div class="cd in5"><div class="n">03 · Head start</div><h3>Already running <span>Elastic.</span></h3><p>Observability was in place and fraud used some of the stack, so Elastic Security became the natural data fabric and SIEM to evaluate.</p><div class="chips"><span class="chip">Observability</span><span class="chip">Security</span></div></div>
+</div>
+<div class="shift in6">
+  <div class="st"><div class="tag">Before</div><div class="big">Passive dashboards.</div><p>Look at it, if you remember to.</p><div class="mini" id="m1"></div></div>
+  <div class="arrow"><svg viewBox="0 0 56 20"><path d="M0 10H50M42 3L50 10L42 17" fill="none" stroke="#1D1E24" stroke-width="1.5"/></svg></div>
+  <div class="st to"><div class="tag">After</div><div class="big">Proactive detection.</div><p>The platform tells you, then walks you through it.</p><div class="mini act" id="m2"></div></div>
+</div>
+<script src="style/eweb.js"></script>
+<script src="/js/fuckslides.js"></script>
+<script>
+(function(){
+  const mk = (id, hs, red) => { const e = document.getElementById(id); hs.forEach((h, i) => { const b = document.createElement('i'); b.style.height = h + 'px'; b.style.animationDelay = (1 + i * .05) + 's'; if (red === i) b.className = 'r'; e.appendChild(b); }); };
+  mk('m1', [10, 16, 12, 20, 15, 18, 13, 17, 11, 19, 14, 16]);
+  mk('m2', [10, 16, 12, 20, 15, 18, 13, 30, 11, 19, 14, 16], 7);
+})();
+</script>
+</body>
+</html>

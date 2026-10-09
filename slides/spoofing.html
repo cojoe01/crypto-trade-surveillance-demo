@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Spoofing</title>
+<link rel="stylesheet" href="style/eweb.css">
+<link rel="stylesheet" href="style/fin.css">
+<style>
+  h1{font-size:50px;letter-spacing:-1.8px;max-width:520px}
+  .sub{font-size:16.5px;max-width:480px}
+  .z{width:520px}
+  .ch{position:absolute;left:72px;top:318px;width:512px}
+  .ch .wb em{color:var(--red)}
+  .pan{display:grid;grid-template-columns:1fr 1fr}
+  .pan > div{padding:12px 14px 10px}
+  .pan > div + div{border-left:1px solid var(--line)}
+  .pan .tag{font-size:10px;color:var(--grey);font-weight:500}
+  .pan .tag b{color:var(--ink)}
+  .pan svg{width:100%;height:150px;display:block;margin-top:6px;overflow:visible}
+  .bu{transform-box:fill-box;animation:fin-grow .5s cubic-bezier(.2,.7,.2,1) both}
+  .bd{transform-box:fill-box;transform-origin:top;animation:fin-grow .5s cubic-bezier(.2,.7,.2,1) both}
+  .bu{transform-origin:bottom}
+  .key{display:flex;gap:16px;padding:8px 14px;border-top:1px solid var(--line);font:500 10.5px var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--char)}
+  .key i{display:inline-block;width:9px;height:9px;margin-right:6px;vertical-align:-1px}
+  .rt{position:absolute;left:632px;right:72px;top:70px}
+  .rt .win{box-shadow:8px 8px 0 var(--pink)}
+  .th{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:26px}
+  .th div{border-top:1px solid var(--ink);padding-top:8px}
+  .th .stat{font-size:42px;letter-spacing:-1.8px}
+  .th p{font-size:12px;line-height:1.4;color:var(--char);margin-top:4px}
+</style>
+</head>
+<body data-foot="Trade surveillance · Spoofing">
+<div class="z">
+  <div class="eyebrow in1">Market abuse · <b>Spoofing</b></div>
+  <h1 class="in2">Spoofing leaves<br>a <span class="b">cancel signature.</span></h1>
+  <p class="sub in3">Stack one side of the book, cancel it all, then trade the other way. The orders never fill, but the pattern is loud.</p>
+</div>
+<div class="win ch in4">
+  <div class="wb"><i></i><i></i><i></i><span>Cancels per 60s bucket</span><em>illustrative</em></div>
+  <div class="pan">
+    <div><div class="tag">Normal <b>· balanced</b></div><svg id="s1" viewBox="0 0 200 150"></svg></div>
+    <div><div class="tag">Cancel-and-flip <b>· one-sided</b></div><svg id="s2" viewBox="0 0 200 150"></svg></div>
+  </div>
+  <div class="key"><span><i style="background:var(--teal-d)"></i>Buy cancels</span><span><i style="background:var(--orange)"></i>Sell cancels</span><span><i style="background:var(--red)"></i>Flagged</span></div>
+</div>
+<div class="rt in3">
+  <div class="win">
+    <div class="wb"><i></i><i></i><i></i><span>Spoofing: Momentum Ignition</span><em>ES|QL</em></div>
+<pre class="code"><span class="k">FROM</span> logs-trades.orders-*
+| <span class="k">WHERE</span> order.status == <span class="s">"Canceled"</span>
+| <span class="k">STATS</span> canceled_buys  = <span class="k">COUNT</span>(*) <span class="k">WHERE</span> order.side == <span class="s">"Buy"</span>,
+        canceled_sells = <span class="k">COUNT</span>(*) <span class="k">WHERE</span> order.side == <span class="s">"Sell"</span>
+    <span class="k">BY</span> order.account, order.symbol,
+       time_bucket = <span class="k">BUCKET</span>(order.timestamp, <span class="n">60</span> second)
+| <span class="k">EVAL</span> total_cancellations = canceled_buys + canceled_sells,
+       minority = <span class="k">LEAST</span>(canceled_buys, canceled_sells),
+       directional_ratio = minority / total_cancellations
+<span class="h">| <span class="k">WHERE</span> total_cancellations &gt; <span class="n">5</span></span>
+<span class="h">    <span class="k">AND</span> directional_ratio &lt; <span class="n">0.15</span></span></pre>
+  </div>
+  <div class="th">
+    <div><div class="stat">&gt;5</div><p>cancels inside one 60 second bucket</p></div>
+    <div><div class="stat">&lt;15%</div><p>cancels on the minority side</p></div>
+    <div><div class="stat">0</div><p>fills needed. Layering by amendment: 6+ replaces, no fill</p></div>
+  </div>
+</div>
+<script src="style/eweb.js"></script>
+<script src="/js/fuckslides.js"></script>
+<script>
+(function(){
+  const NS = 'http://www.w3.org/2000/svg';
+  function panel(id, buys, sells, flag){
+    const s = document.getElementById(id), n = buys.length, bw = 22, gap = (200 - n * bw) / (n + 1), mid = 80;
+    const ax = EW.el('line', {x1: 0, y1: mid, x2: 200, y2: mid, stroke: '#1D1E24', 'stroke-width': 1}, s);
+    buys.forEach((b, i) => {
+      const x = gap + i * (bw + gap), f = flag.includes(i), d = .5 + i * .07;
+      const r1 = EW.el('rect', {x, y: mid - b, width: bw, height: b, fill: f ? '#E0352B' : '#02BCB7', class: 'bu'}, s); r1.style.animationDelay = d + 's';
+      const r2 = EW.el('rect', {x, y: mid, width: bw, height: sells[i], fill: '#FF7E62', class: 'bd'}, s); r2.style.animationDelay = (d + .05) + 's';
+      const t = EW.el('text', {x: x + bw / 2, y: 146, 'text-anchor': 'middle', 'font-size': 8.5, fill: '#98A2B3', 'font-family': 'IBM Plex Mono'}, s); t.textContent = ':' + String(i * 10).padStart(2, '0');
+    });
+  }
+  panel('s1', [22, 30, 18, 26, 20, 28], [24, 20, 28, 18, 26, 22], []);
+  panel('s2', [10, 64, 72, 58, 68, 8], [3, 4, 3, 5, 2, 4], [1, 2, 3, 4]);
+})();
+</script>
+</body>
+</html>
